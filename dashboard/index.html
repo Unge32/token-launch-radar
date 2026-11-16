@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols, priced like the market prices the live ones</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="glyph" aria-hidden="true">▚</span><span class="brand-name">TOKEN&nbsp;RADAR</span><span class="brand-tag">pre-token · comparables-priced</span></div>
+  <div class="top-meta" id="top-meta"></div>
+</header>
+<main class="wrap" id="board">
+  <section class="intro">
+    <h1>Every protocol with no token on record, ranked by what its launch would be worth.</h1>
+    <p class="lede">The watchlist is the floor, never the ceiling: 40 protocols with at least $50M of TVL and no token on record, plus 160 more below it. Each value is priced off the live market — the median market-cap / TVL of the token protocols already trading in the same category — then shaped by how long the protocol has run with no token, its seven-day growth, and how many chains it runs on. An implied value is a model, not a promise, and never a prediction of a launch.</p>
+    <div class="stats" id="stats"></div>
+  </section>
+
+  <section class="controls" aria-label="Filter the board">
+    <label class="ctl">Search
+      <input type="search" id="q" placeholder="name, slug, category or chain" autocomplete="off">
+    </label>
+    <label class="ctl">Category
+      <select id="category"></select>
+    </label>
+    <label class="ctl">Chain
+      <select id="chain"></select>
+    </label>
+    <label class="ctl check"><input type="checkbox" id="watchlist-only"> Watchlist only</label>
+    <span class="count" id="count" aria-live="polite"></span>
+  </section>
+
+  <section class="panel">
+    <div class="table-scroll">
+      <table id="board-table">
+        <caption>Pre-token protocols, strongest implied value first. Select a row to see its value breakdown and farm plan.</caption>
+        <thead><tr id="head-row"></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="empty" id="empty" hidden>No protocol matches that filter. Clear the search or pick another category or chain.</p>
+  </section>
+
+  <section class="panel detail" id="detail" hidden></section>
+
+  <section class="panel" id="comparables">
+    <h2>Live comparables — the market the model reads</h2>
+    <p class="sub">These protocols already trade, so their market caps are facts, not a model. Each category's median market-cap / TVL is the multiple the pre-token rows in that category are priced on. The board itself stays pre-token only.</p>
+    <div class="two-col">
+      <div>
+        <h3>Median multiple by category</h3>
+        <table class="mini" id="comp-table">
+          <thead><tr><th scope="col">Category</th><th scope="col" class="num">Median mcap / TVL</th><th scope="col" class="num">Live protocols</th></tr></thead>
+          <tbody id="comp-rows"></tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Largest live-token protocols</h3>
+        <table class="mini" id="live-table">
+          <thead><tr><th scope="col">Protocol</th><th scope="col" class="num">TVL</th><th scope="col" class="num">Mcap</th><th scope="col" class="num">Multiple</th></tr></thead>
+          <tbody id="live-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel model">
+    <h2>How the value is modelled</h2>
+    <p class="formula" id="formula"></p>
+    <p class="sub" id="model-note"></p>
+    <ul class="model-points">
+      <li><b>Multiple</b> — the live market's own price: median market-cap / TVL of the protocols in the same category that already trade. A category with fewer than 3 live protocols falls back to the global median; with no live market at all, 0.5.</li>
+      <li><b>Maturity</b> — how long the protocol has run with no token: 0.7 on day one, rising to 1.0 after three years listed. A protocol with no listed date scores 0.7.</li>
+      <li><b>Growth</b> — the seven-day TVL change, clipped to −50%…+100% so one wild week cannot decide a rank, then weighted by half.</li>
+      <li><b>Breadth</b> — one more chain is worth 5%: 1 + 0.05 × chains, capped at five chains.</li>
+      <li><b>Floor and cap</b> — no implied value below $1M or above $100B, so a thin protocol cannot rank on noise and a giant cannot run away with the board.</li>
+    </ul>
+  </section>
+
+  <footer class="foot">
+    <p id="source-line"></p>
+    <p>“Records no token” means the snapshot's record carries no token — a protocol on this board may still have one its record does not carry. Farm plans are a reader's checklist, not financial advice; never pay to claim anything.</p>
+  </footer>
+</main>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
